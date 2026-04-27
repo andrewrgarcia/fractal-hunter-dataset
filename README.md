@@ -39,7 +39,7 @@ seed/
   ├── blorbo/         # Source identity images
   └── not_blorbo/     # Counterexample identities
 
-challenge/
+data/
   ├── blorbo/         # Distorted blorbo samples
   └── not_blorbo/     # Distorted counterexample samples
 
@@ -50,25 +50,25 @@ scripts/
 ```
 
 ### `seed/`
-Base images representing source identities and counterexamples. These are the ground truth from which all challenge samples are derived.
+Base images representing source identities and counterexamples. These are the ground truth from which all data samples are derived.
 
-### `challenge/`
+### `data/`
 The final dataset used for training and evaluation. Derived from `seed/` through structured, reproducible distortion pipelines.
 
 ---
 
 ## ⚠️ Data Splitting (Critical)
 
-> Split by **base images in `seed/`**, NOT by images in `challenge/`.
+> Split by **base images in `seed/`**, NOT by images in `data/`.
 
-Multiple samples in `challenge/` originate from the same seed image. Splitting by challenge images will cause severe **data leakage** and invalidate evaluation results.
+Multiple samples in `data/` originate from the same seed image. Splitting by data images will cause severe **data leakage** and invalidate evaluation results.
 
 ---
 
 ## Dataset Composition
 
 - ~50 base images (`seed/`)
-- ~1800 generated samples (`challenge/`)
+- ~1800 generated samples (`data/`)
 - Balanced binary classes
 
 **Transformations include:**
