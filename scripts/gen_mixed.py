@@ -4,7 +4,7 @@ from PIL import Image
 
 INPUT_DIR = "seed"
 SPECTRAL_DIR = "spectral"
-OUTPUT_DIR = "challenge"
+OUTPUT_DIR = "data"
 
 LEVELS = [0.15, 0.30, 0.50, 0.70, 0.85, 1.0]
 

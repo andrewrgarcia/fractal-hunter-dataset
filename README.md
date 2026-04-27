@@ -126,8 +126,11 @@ uv run python scripts/rename_challenge.py
 
 ## Related Project
 
-This dataset is the basis for the **Fractal Hunter** challenge on WorkDog:  
-🔗 [getworkdog.com/projects/fractal-hunter](https://getworkdog.com/projects/cmo9ike5j0001f1ixjvqqvsrh)
+This dataset is part of the **Fractal Hunter** challenge on WorkDog:  
+🔗 https://getworkdog.com/projects/cmo9ike5j0001f1ixjvqqvsrh
+
+Kaggle version for experimentation and benchmarking:  
+🔗 https://kaggle.com/datasets/your-link
 
 ---
 
