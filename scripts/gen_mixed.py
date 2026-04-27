@@ -1,18 +1,25 @@
 import os
 import numpy as np
 from PIL import Image
+import pandas as pd
 
 INPUT_DIR = "seed"
 SPECTRAL_DIR = "spectral"
 OUTPUT_DIR = "data"
 
-LEVELS = [0.15, 0.30, 0.50, 0.70, 0.85, 1.0]
+LEVELS = [0.0, 0.15, 0.30, 0.50, 0.70, 0.85, 1.0]
+
 
 def blend(img, spec, alpha):
     img = img.astype(np.float32)
     spec = spec.astype(np.float32)
     out = (1 - alpha) * img + alpha * spec
     return np.clip(out, 0, 255).astype(np.uint8)
+
+
+def extract_mode(stem, spec_file):
+    return spec_file.replace(stem + "_", "").replace(".png", "")
+
 
 def process(label):
     in_path = os.path.join(INPUT_DIR, label)
@@ -21,34 +28,57 @@ def process(label):
 
     os.makedirs(out_path, exist_ok=True)
 
-    for fname in os.listdir(in_path):
+    rows = []
+
+    for fname in sorted(os.listdir(in_path)):
         if not fname.endswith(".png"):
             continue
 
-        img = np.array(Image.open(os.path.join(in_path, fname)).convert("RGB"))
+        img_path = os.path.join(in_path, fname)
+        img = np.array(Image.open(img_path).convert("RGB"))
 
-        # match spectral variants
         stem = fname.replace(".png", "")
 
-        for spec_file in os.listdir(spec_path):
+        for spec_file in sorted(os.listdir(spec_path)):
             if not spec_file.startswith(stem):
                 continue
 
-            spec = np.array(Image.open(os.path.join(spec_path, spec_file)).convert("RGB"))
+            spec_path_full = os.path.join(spec_path, spec_file)
+            spec = np.array(Image.open(spec_path_full).convert("RGB"))
+
+            mode = extract_mode(stem, spec_file)
 
             for alpha in LEVELS:
                 mixed = blend(img, spec, alpha)
 
                 name = spec_file.replace(
                     ".png",
-                    f"_mix_{int(alpha*100):03d}.png"
+                    f"_mix_{int(alpha * 100):03d}.png"
                 )
 
-                Image.fromarray(mixed).save(os.path.join(out_path, name))
+                out_file = os.path.join(out_path, name)
+                Image.fromarray(mixed).save(out_file)
+
+                rows.append({
+                    "filename": name,
+                    "label": label,
+                    "group": stem,
+                    "alpha": alpha,
+                    "mode": mode
+                })
+
+    return rows
+
 
 def main():
+    all_rows = []
+
     for label in ["blorbo", "not_blorbo"]:
-        process(label)
+        all_rows.extend(process(label))
+
+    df = pd.DataFrame(all_rows)
+    df.to_csv("metadata_raw.csv", index=False)
+
 
 if __name__ == "__main__":
     main()

@@ -12,4 +12,4 @@ clean:
 	rm -rf spectral/
 
 rename:
-	uv run python scripts/rename_challenge.py
+	uv run python scripts/rename_data.py

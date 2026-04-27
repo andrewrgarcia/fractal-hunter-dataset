@@ -1,2 +1,6 @@
 spectral/
 .venv
+*raw.csv
+
+# ygg 
+SHOW.md
