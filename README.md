@@ -130,7 +130,7 @@ This dataset is part of the **Fractal Hunter** challenge on WorkDog:
 🔗 https://getworkdog.com/projects/cmo9ike5j0001f1ixjvqqvsrh
 
 Kaggle version for experimentation and benchmarking:  
-🔗 https://kaggle.com/datasets/your-link
+🔗 https://www.kaggle.com/datasets/drandrewgarcia/fractal-hunter-extreme-distortion
 
 ---
 
